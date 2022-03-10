@@ -1,24 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {Component, useEffect, useState} from "react";
+import { BrowserRouter , Routes, Route } from "react-router-dom";
+import Navbar from "./components/layout/Navbar";
+import Dashboard from "./components/dashboard/Dashboard";
+import ProjectDetails from "./components/projects/ProjectDetails";
+import SignIn from "./components/auth/SigIn"
+import SignUp from "./components/auth/SigUp";
+import CreateProject from "./components/projects/CreateProjects";
+import db from "./config/fbConfig";
+import { getDatabase, ref, onValue, query} from "firebase/database";
+import { collection, getDocs } from "firebase/firestore/lite";
 
-function App() {
+
+
+ function App() {
+  
+  const [projects, setProjects] = useState([])
+  
+   
+   
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <Navbar /> 
+        <Routes>
+          <Route exact path="/" element={<Dashboard />}/>
+          <Route path="/project/:id" element={<ProjectDetails />}/>
+          <Route path="/signin" element={< SignIn/>} />
+          <Route path="/signup" element={< SignUp/>} />
+          <Route path="/create" element={< CreateProject/>}/> 
+        </Routes>
+        {/* {projects.map(project => <Dashboard data={project}/>)} */}
+      </div>
+    </BrowserRouter>
   );
 }
 
